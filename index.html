@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VCopter Log Viewer</title>
+<meta name="description" content="Decode and visualize ZeroZero VCopter .logbin flight logs entirely in your browser -- no upload to any server.">
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="app-header">
+  <h1>VCopter Log Viewer</h1>
+  <p class="tagline">Decode ZeroZero VCopter <code>.logbin</code> flight logs. Everything runs in your browser -- your files are never uploaded anywhere.</p>
+</header>
+
+<section class="upload-panel">
+  <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Upload log files">
+    <p><strong>Drop your PTZ + RawData .logbin files here</strong>, or click to choose them.</p>
+    <p class="muted">Either file works alone too (with reduced info) — this tool figures out which is which by content, not by filename.</p>
+  </div>
+  <input id="file-input" type="file" accept=".logbin" multiple hidden>
+  <div id="upload-status" class="upload-status"></div>
+</section>
+
+<div id="error-state" class="error-state" hidden></div>
+
+<div id="app" class="app" hidden>
+  <nav class="tabs">
+    <button class="tab-button active" data-tab="overview">Overview</button>
+    <button class="tab-button" data-tab="developer">Developer</button>
+  </nav>
+
+  <section id="tab-overview" class="tab-panel active">
+    <div id="key-facts" class="stats"></div>
+    <div id="verdict" class="verdict"></div>
+
+    <div class="grid-2">
+      <div class="panel-card">
+        <h2>Flight path</h2>
+        <div id="map" class="map"></div>
+      </div>
+      <div class="panel-card">
+        <h2>Altitude &amp; gimbal pitch</h2>
+        <div class="chart-wrap">
+          <canvas id="altitude-canvas"></canvas>
+          <div class="chart-tooltip"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-card">
+      <h2>Gimbal debug transcript</h2>
+      <input id="transcript-search" type="search" placeholder="Search transcript…" class="search-input">
+      <div id="transcript" class="transcript"></div>
+    </div>
+  </section>
+
+  <section id="tab-developer" class="tab-panel">
+    <p class="muted dev-intro">
+      Most fields in this format are still unidentified. Pick any record type, numeric interpretation,
+      byte offset and divisor below to plot it against time -- if you find something that looks like a
+      real signal, please open an issue or a PR with what you found.
+    </p>
+    <div id="offset-explorer"></div>
+    <div id="record-inspector"></div>
+  </section>
+</div>
+
+<footer class="app-footer">
+  Format reverse-engineered from real flight logs, unofficial and unaffiliated with ZeroZero Robotics. See the README for what's confirmed and what's still guesswork.
+</footer>
+
+<script src="vendor/leaflet/leaflet.js"></script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
