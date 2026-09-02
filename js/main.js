@@ -158,3 +158,18 @@ els.tabButtons.forEach((btn) => {
     if (btn.dataset.tab === 'overview') renderOverview();
   });
 });
+
+// --- donation address copy button ---
+const btcCopyBtn = document.getElementById('btc-copy');
+if (btcCopyBtn) {
+  btcCopyBtn.addEventListener('click', async () => {
+    const address = document.getElementById('btc-address').textContent.trim();
+    try {
+      await navigator.clipboard.writeText(address);
+      btcCopyBtn.textContent = 'Copied!';
+    } catch {
+      btcCopyBtn.textContent = 'Copy failed';
+    }
+    setTimeout(() => { btcCopyBtn.textContent = 'Copy'; }, 1500);
+  });
+}

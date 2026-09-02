@@ -18,6 +18,7 @@ function decimate(points, maxPoints) {
 
 let map = null;
 let layerGroup = null;
+let highlightMarker = null;
 
 export function renderMap(container, gpsValid) {
   if (!map) {
@@ -31,6 +32,7 @@ export function renderMap(container, gpsValid) {
   }
   if (layerGroup) layerGroup.remove();
   layerGroup = L.layerGroup().addTo(map);
+  clearMapHighlight(); // don't carry a stale highlight over from a previous flight
 
   if (!gpsValid || gpsValid.length === 0) {
     map.setView([0, 0], 2);
@@ -51,4 +53,30 @@ export function renderMap(container, gpsValid) {
 
 export function invalidateMapSize() {
   if (map) map.invalidateSize();
+}
+
+// Cross-highlight: called by the altitude/pitch chart on hover so the
+// corresponding position lights up on the map too.
+export function highlightMapPoint(lat, lon) {
+  if (!map || lat == null || lon == null) return;
+  if (!highlightMarker) {
+    highlightMarker = L.circleMarker([lat, lon], {
+      radius: 8,
+      color: '#5ecbd8',
+      weight: 2,
+      fillColor: '#5ecbd8',
+      fillOpacity: 0.5,
+      interactive: false,
+      pane: 'markerPane',
+    }).addTo(map);
+  } else {
+    highlightMarker.setLatLng([lat, lon]);
+    if (!map.hasLayer(highlightMarker)) highlightMarker.addTo(map);
+  }
+}
+
+export function clearMapHighlight() {
+  if (highlightMarker && map && map.hasLayer(highlightMarker)) {
+    map.removeLayer(highlightMarker);
+  }
 }
