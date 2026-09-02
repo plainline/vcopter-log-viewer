@@ -16,6 +16,12 @@ affiliated with, endorsed by, or built from any documentation from ZeroZero
 Robotics -- everything here was figured out by staring at real log files in
 a hex editor. Treat every field marked "unconfirmed" as a guess, not a fact.
 
+Tested with logs from a **ZeroZero Falcon Mini**, VCopter app version
+**1.0.16**. Other drones/app versions in the same family likely use the same
+or a very similar format, but that's untested -- if you try it on something
+else, please open an issue either way (works or doesn't) so this note can
+get more accurate.
+
 ## Using it
 
 Open `index.html` in a browser (locally, or host the whole folder on GitHub
