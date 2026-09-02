@@ -126,7 +126,6 @@ function renderOverview() {
   renderMap(document.getElementById('map'), currentFlight.gps.valid);
 
   renderAltitudeChart(document.getElementById('altitude-canvas'), currentFlight, colors);
-  renderTranscript(document.getElementById('transcript'), els.transcriptSearch, currentFlight);
   overviewRendered = true;
 }
 
@@ -135,6 +134,7 @@ function renderDeveloper() {
   const colors = readColors();
   initOffsetExplorer(document.getElementById('offset-explorer'), currentFlight, colors);
   renderRecordInspector(document.getElementById('record-inspector'), currentFlight);
+  renderTranscript(document.getElementById('transcript'), els.transcriptSearch, currentFlight);
   devInitialized = true;
 }
 
